@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> 最近你的压力有多大？ </title>
+    <script src="https://www.naodao.com/public/experiment/libs/jspsych-7/jspsych.js"></script>
+    <script src="https://www.naodao.com/public/experiment/libs/plugin/plugin-html-button-response.js"></script>
+    <script src="https://www.naodao.com/public/experiment/libs/plugin/plugin-survey-likert.js"></script>
+    <script src="https://www.naodao.com/public/experiment/libs/extension/naodao-2021-12.js"></script>
+    <script src="https://www.naodao.com/public/experiment/libs/axios.min.js"></script>
+    <link rel="stylesheet" href="jspsych/jspsych.css">
+  </head>
+  <body></body>
+  <script>
+    var jsPsych = initJsPsych({});
+    var timeline=[]
+
+var likert_scale = [
+"0"+"<p>从不" ,
+  "1", 
+  "2", 
+  "3", 
+  "4"+"<p>总是"
+];
+
+var trial = {
+  type: jsPsychSurveyLikert,
+  preamble:"<p align='center' style='font: bold 25px 微软雅黑; color: #B22222'>最近你的压力有多大?\
+    <p align='left' style='font: 16px 微软雅黑; color: black'>这份量表是在询问在最近一个月来，您个人的感受和想法，请您于每一个题项上作答时，去指出您感受或想到某一特定想法的频率。虽然有些问题看是相似，实则是有所差异，所以每一题均需作答。而作答方式尽量以快速、不假思索方式填答，亦即不要去思虑计算每一题分数背后之意涵，以期确实反应您真实的压力知觉状况。而每一题项皆有下列五种选择：\
+    <p style='font: 16px 微软雅黑; color: black'>0：从不 1：偶尔 2:有时 3: 时常 4：总是\
+    <p style='font: 16px 微软雅黑; color: black'>请回想最近一个月来，发生下列各状况的频率（根据上面的五种选择赋分）",
+  questions: [
+    {prompt: "1.因为一些无法预期的事情发生而感到心烦意乱", name: 'Q1', labels: likert_scale, required:'true'},
+    {prompt: "2.感觉无法控制自己生活中重要的事情", name: 'Q2', labels: likert_scale, required:'true'},
+    {prompt: "3.感到紧张不安和压力", name: 'Q3', labels: likert_scale, required:'true'},
+    {prompt: "4. 能够成功地处理恼人的生活麻烦", name: 'Q4', labels: likert_scale, required:'true'},
+    {prompt: "5. 感到自己可以有效地处理生活中所发生的重要改变", name: 'Q5', labels: likert_scale, required:'true'},
+    {prompt: "6. 对于有能力处理自己私人的问题感到很有信心", name: 'Q6', labels: likert_scale, required:'true'},
+    {prompt: "7. 感到事情顺心如意", name: 'Q7', labels: likert_scale, required:'true'},
+    {prompt: "8. 发现自己无法处理好所有自己必须做的事情", name: 'Q8', labels: likert_scale, required:'true'},
+    {prompt: "9. 有办法控制好生活中恼人的事情", name: 'Q9', labels: likert_scale, required:'true'},
+    {prompt: "10. 常觉得自己是能够驾驭事情的主人翁", name: 'Q10', labels: likert_scale, required:'true'},
+    {prompt: "11. 经常生气，因为很多事情的发生是超出自己所能控制的", name: 'Q11', labels: likert_scale, required:'true'},
+    {prompt: "12. 经常想到有些事情是自己必须完成的", name: 'Q12', labels: likert_scale, required:'true'},
+    {prompt: "13. 通常能够掌握时间的安排方式", name: 'Q13', labels: likert_scale, required:'true'},
+    {prompt: "14. 常感到困难的事情堆积如山，而自己无法克服它们", name: 'Q14', labels: likert_scale, required:'true'},
+  ],
+  button_label:"提交",
+  on_finish:function(data){
+    data.a1=data.response.Q1
+    data.a2=data.response.Q2 
+    data.a3=data.response.Q3 
+    data.a4=data.response.Q4 
+    data.a5=data.response.Q5 
+    data.a6=data.response.Q6 
+    data.a7=data.response.Q7 
+    data.a8=data.response.Q8 
+    data.a9=data.response.Q9 
+    data.a10=data.response.Q10 
+    data.a11=data.response.Q11 
+    data.a12=data.response.Q12 
+    data.a13=data.response.Q13 
+    data.a14=data.response.Q14   
+  }
+};
+var result = {
+    type: jsPsychHtmlButtonResponse,
+    stimulus: function(){
+        sum=jsPsych.data.get().last(1).values()[0].a1+jsPsych.data.get().last(1).values()[0].a2+
+        jsPsych.data.get().last(1).values()[0].a3+jsPsych.data.get().last(1).values()[0].a8+
+        jsPsych.data.get().last(1).values()[0].a11+jsPsych.data.get().last(1).values()[0].a14+
+        4-jsPsych.data.get().last(1).values()[0].a4+
+        4-jsPsych.data.get().last(1).values()[0].a5+
+        4-jsPsych.data.get().last(1).values()[0].a6+
+        4-jsPsych.data.get().last(1).values()[0].a7+
+        4-jsPsych.data.get().last(1).values()[0].a9+
+        4-jsPsych.data.get().last(1).values()[0].a10+
+        4-jsPsych.data.get().last(1).values()[0].a12+
+        4-jsPsych.data.get().last(1).values()[0].a13
+        if(sum>=0&&sum<=14){return "<p align='center' style='font:bold 30px 微软雅黑; color: black'>压力指数："+String(sum)+
+            "<p align='left' style='font: 16px 微软雅黑; color: black'>你当前的压力处于低水平，你对自己当前的生活有足够的掌控和控制，不会因为一些无法预期的事情发生而感到心烦意乱和惊慌失措。"}
+        if(sum>=15&&sum<=28){return "<p align='center' style='font:bold 30px 微软雅黑; color: black'>压力指数："+String(sum)+
+            "<p align='left' style='font: 16px 微软雅黑; color: black'>当前你生活中的兴奋与压力比例是比较适中的。偶尔会有一段时间压力太多，但你有能力去享受压力，并且很快地回到平静状态，因此你面临的压力对你健康并不会造成威胁。不过做一些松弛的练习仍是有益的。"}
+        if(sum>=29&&sum<=42){return "<p align='center' style='font:bold 30px 微软雅黑; color: black'>压力指数："+String(sum)+
+            "<p align='left' style='font: 16px 微软雅黑; color: black'>你当前正在经历较高的压力水平，它可能已经对你的身心健康造成负面影响，需要你采取措施加以调节。"}
+        if(sum>=43&&sum<=56){return "<p align='center' style='font:bold 30px 微软雅黑; color: black'>压力指数："+String(sum)+
+            "<p align='left' style='font: 16px 微软雅黑; color: black'>这个分数表示你可能正在以极度的压力反应在伤害你自己的身心健康。你可能需要专业人员的帮助，协助你采用更加有效的方式来面对那些模糊的、难以改变的、长期的压力问题，进而改良生活的品质。"}    
+    },
+    choices: ['关闭'],
+    };
+timeline.push(trial,result)
+
+jsPsych.run(timeline);
+
+  </script>
+</html>
