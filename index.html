@@ -2,19 +2,29 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> 最近你的压力有多大？ </title>
+    <title> 最近你的压力有多大？</title>
     <script src="https://www.naodao.com/public/experiment/libs/jspsych-7/jspsych.js"></script>
+    <script src="https://www.naodao.com/public/experiment/libs/plugin/plugin-fullscreen.js"></script>
+    <script src="https://www.naodao.com/public/experiment/libs/plugin/plugin-html-keyboard-response.js"></script>
+    <script src="https://www.naodao.com/public/experiment/libs/plugin/plugin-preload.js"></script>
+    <script src="https://www.naodao.com/public/experiment/libs/plugin/plugin-categorize-html.js"></script>
+    <script src="https://www.naodao.com/public/experiment/libs/plugin/plugin-image-button-response.js"></script>
     <script src="https://www.naodao.com/public/experiment/libs/plugin/plugin-html-button-response.js"></script>
+    <script src="https://www.naodao.com/public/experiment/libs/plugin/plugin-survey-html-form.js"></script>
+    <script src="https://www.naodao.com/public/experiment/libs/plugin/plugin-survey-text.js"></script>
     <script src="https://www.naodao.com/public/experiment/libs/plugin/plugin-survey-likert.js"></script>
     <script src="https://www.naodao.com/public/experiment/libs/extension/naodao-2021-12.js"></script>
     <script src="https://www.naodao.com/public/experiment/libs/axios.min.js"></script>
-    <link rel="stylesheet" href="jspsych/jspsych.css">
+    <link rel="stylesheet" href="https://www.naodao.com/public/experiment/libs/jspsych-7/css/jspsych.css">
   </head>
   <body></body>
   <script>
-    var jsPsych = initJsPsych({});
+    var jsPsych = initJsPsych({
+      extensions: [
+        {type: Naodao}
+      ]
+    });
+
     var timeline=[]
 
 var likert_scale = [
@@ -29,23 +39,23 @@ var trial = {
   type: jsPsychSurveyLikert,
   preamble:"<p align='center' style='font: bold 25px 微软雅黑; color: #B22222'>最近你的压力有多大?\
     <p align='left' style='font: 16px 微软雅黑; color: black'>这份量表是在询问在最近一个月来，您个人的感受和想法，请您于每一个题项上作答时，去指出您感受或想到某一特定想法的频率。虽然有些问题看是相似，实则是有所差异，所以每一题均需作答。而作答方式尽量以快速、不假思索方式填答，亦即不要去思虑计算每一题分数背后之意涵，以期确实反应您真实的压力知觉状况。而每一题项皆有下列五种选择：\
-    <p style='font: 16px 微软雅黑; color: black'>0：从不 1：偶尔 2:有时 3: 时常 4：总是\
-    <p style='font: 16px 微软雅黑; color: black'>请回想最近一个月来，发生下列各状况的频率（根据上面的五种选择赋分）",
+    <p align='left' style='font: 16px 微软雅黑; color: black'>0：从不 1：偶尔 2:有时 3: 时常 4：总是\
+    <p align='left' style='font: 16px 微软雅黑; color: black'>请回想最近一个月来，发生下列各状况的频率（根据上面的五种选择赋分）",
   questions: [
-    {prompt: "1.因为一些无法预期的事情发生而感到心烦意乱", name: 'Q1', labels: likert_scale, required:'true'},
-    {prompt: "2.感觉无法控制自己生活中重要的事情", name: 'Q2', labels: likert_scale, required:'true'},
-    {prompt: "3.感到紧张不安和压力", name: 'Q3', labels: likert_scale, required:'true'},
-    {prompt: "4. 能够成功地处理恼人的生活麻烦", name: 'Q4', labels: likert_scale, required:'true'},
-    {prompt: "5. 感到自己可以有效地处理生活中所发生的重要改变", name: 'Q5', labels: likert_scale, required:'true'},
-    {prompt: "6. 对于有能力处理自己私人的问题感到很有信心", name: 'Q6', labels: likert_scale, required:'true'},
-    {prompt: "7. 感到事情顺心如意", name: 'Q7', labels: likert_scale, required:'true'},
-    {prompt: "8. 发现自己无法处理好所有自己必须做的事情", name: 'Q8', labels: likert_scale, required:'true'},
-    {prompt: "9. 有办法控制好生活中恼人的事情", name: 'Q9', labels: likert_scale, required:'true'},
-    {prompt: "10. 常觉得自己是能够驾驭事情的主人翁", name: 'Q10', labels: likert_scale, required:'true'},
-    {prompt: "11. 经常生气，因为很多事情的发生是超出自己所能控制的", name: 'Q11', labels: likert_scale, required:'true'},
-    {prompt: "12. 经常想到有些事情是自己必须完成的", name: 'Q12', labels: likert_scale, required:'true'},
-    {prompt: "13. 通常能够掌握时间的安排方式", name: 'Q13', labels: likert_scale, required:'true'},
-    {prompt: "14. 常感到困难的事情堆积如山，而自己无法克服它们", name: 'Q14', labels: likert_scale, required:'true'},
+    {prompt: "<p align='left' style='font: 16px 微软雅黑; color: black'>1.因为一些无法预期的事情发生而感到心烦意乱", name: 'Q1', labels: likert_scale, required:'true'},
+    {prompt: "<p align='left' style='font: 16px 微软雅黑; color: black'>2.感觉无法控制自己生活中重要的事情", name: 'Q2', labels: likert_scale, required:'true'},
+    {prompt: "<p align='left' style='font: 16px 微软雅黑; color: black'>3.感到紧张不安和压力", name: 'Q3', labels: likert_scale, required:'true'},
+    {prompt: "<p align='left' style='font: 16px 微软雅黑; color: black'>4. 能够成功地处理恼人的生活麻烦", name: 'Q4', labels: likert_scale, required:'true'},
+    {prompt: "<p align='left' style='font: 16px 微软雅黑; color: black'>5. 感到自己可以有效地处理生活中所发生的重要改变", name: 'Q5', labels: likert_scale, required:'true'},
+    {prompt: "<p align='left' style='font: 16px 微软雅黑; color: black'>6. 对于有能力处理自己私人的问题感到很有信心", name: 'Q6', labels: likert_scale, required:'true'},
+    {prompt: "<p align='left' style='font: 16px 微软雅黑; color: black'>7. 感到事情顺心如意", name: 'Q7', labels: likert_scale, required:'true'},
+    {prompt: "<p align='left' style='font: 16px 微软雅黑; color: black'>8. 发现自己无法处理好所有自己必须做的事情", name: 'Q8', labels: likert_scale, required:'true'},
+    {prompt: "<p align='left' style='font: 16px 微软雅黑; color: black'>9. 有办法控制好生活中恼人的事情", name: 'Q9', labels: likert_scale, required:'true'},
+    {prompt: "<p align='left' style='font: 16px 微软雅黑; color: black'>10. 常觉得自己是能够驾驭事情的主人翁", name: 'Q10', labels: likert_scale, required:'true'},
+    {prompt: "<p align='left' style='font: 16px 微软雅黑; color: black'>11. 经常生气，因为很多事情的发生是超出自己所能控制的", name: 'Q11', labels: likert_scale, required:'true'},
+    {prompt: "<p align='left' style='font: 16px 微软雅黑; color: black'>12. 经常想到有些事情是自己必须完成的", name: 'Q12', labels: likert_scale, required:'true'},
+    {prompt: "<p align='left' style='font: 16px 微软雅黑; color: black'>13. 通常能够掌握时间的安排方式", name: 'Q13', labels: likert_scale, required:'true'},
+    {prompt: "<p align='left' style='font: 16px 微软雅黑; color: black'>14. 常感到困难的事情堆积如山，而自己无法克服它们", name: 'Q14', labels: likert_scale, required:'true'},
   ],
   button_label:"提交",
   on_finish:function(data){
@@ -90,9 +100,11 @@ var result = {
     },
     choices: ['关闭'],
     };
+    
 timeline.push(trial,result)
 
 jsPsych.run(timeline);
 
   </script>
 </html>
+
